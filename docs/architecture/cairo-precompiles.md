@@ -1,4 +1,9 @@
-# Precompiles
+---
+title: Starknet MultiVM - EVM precompiles
+sidebar_position: 3
+---
+
+## Precompiles
 
 Precompiles are predefined smart contracts with unique addresses that provide
 specific functionality. Instead of being executed at the EVM bytecode level,
@@ -14,7 +19,7 @@ provides L2-specific precompiles. These L2-specific precompiles have methods
 that smart contracts can call in a way similar to calling Solidity functions.
 One of these precompiles is the _Cairo Precompile_.
 
-# Cairo Precompile
+## Cairo Precompile
 
 Kakarot ZK-EVM being a Starknet appchain, it is possible to run Cairo Contracts
 on Kakarot. The address `75001` is reserved for the "Cairo precompile", that
@@ -66,31 +71,18 @@ library CairoLib {
         uint256 functionSelector,
         uint256[] memory data
     ) internal view returns (bytes memory returnData);
-
-
-    /// @dev Performs a low-level call to a Cairo class declared on the Starknet appchain.
-    /// @param classHash The class hash of the Cairo class.
-    /// @param functionSelector The function selector of the Cairo class function to be called.
-    /// @param data The input data for the Cairo class function.
-    /// @return returnData The return data from the Cairo class function.
-    function libraryCall(
-        uint256 classHash,
-        uint256 functionSelector,
-        uint256[] memory data
-    ) internal view returns (bytes memory returnData);
 }
 
 ```
 
-It contains three functions, `callContract`, `staticcallContract` and
-`libraryCall` that allow the user to call a Cairo contract or class deployed on
-the Starknet appchain. The method takes three arguments:
+It contains two functions, `callContract` and `staticcallContract`, that allow
+the user to call a Cairo contract or class deployed on the Starknet appchain.
+The method takes three arguments:
 
-- `contractAddress` or `classHash`: The address of the Cairo contract to call /
-  class hash to call
+- `contractAddress` : The address of the Cairo contract to call
 - `functionSelector`: The selector of the function to call, as the `sn_keccak`
   of the entrypoint name: `keccak("entrypoint_name") % 2^250`
-- `data`: The calldata to pass to the Cairo contract, as individual bytes.
+- `data`: The calldata to pass to the Cairo contract, as individual bytes
 
 Contract developers can use this library to interact with the Cairo precompiles.
 Let's take an example of a contract that calls a Cairo contract to increment a
